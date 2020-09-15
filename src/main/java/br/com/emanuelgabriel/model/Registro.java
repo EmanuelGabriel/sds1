@@ -1,17 +1,17 @@
 package br.com.emanuelgabriel.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Genero implements Serializable {
+public class Registro implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,16 +19,22 @@ public class Genero implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
+	private Integer idade;
+	private Instant moment;
 
-	@OneToMany(mappedBy = "genero")
-	List<Game> games = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn(name = "game_id")
+	private Game game;
 
-	public Genero() {
+	public Registro() {
 	}
 
-	public Genero(Long id, String nome) {
+	public Registro(Long id, String nome, Integer idade, Instant moment, Game game) {
 		this.id = id;
 		this.nome = nome;
+		this.idade = idade;
+		this.moment = moment;
+		this.game = game;
 	}
 
 	public Long getId() {
@@ -47,12 +53,28 @@ public class Genero implements Serializable {
 		this.nome = nome;
 	}
 
-	public List<Game> getGames() {
-		return games;
+	public Integer getIdade() {
+		return idade;
 	}
 
-	public void setGames(List<Game> games) {
-		this.games = games;
+	public void setIdade(Integer idade) {
+		this.idade = idade;
+	}
+
+	public Instant getMoment() {
+		return moment;
+	}
+
+	public void setMoment(Instant moment) {
+		this.moment = moment;
+	}
+
+	public Game getGame() {
+		return game;
+	}
+
+	public void setGame(Game game) {
+		this.game = game;
 	}
 
 	@Override
@@ -71,7 +93,7 @@ public class Genero implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Genero other = (Genero) obj;
+		Registro other = (Registro) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -82,7 +104,8 @@ public class Genero implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Genero [id=" + id + ", nome=" + nome + ", games=" + games + "]";
+		return "Registro [id=" + id + ", nome=" + nome + ", idade=" + idade + ", moment=" + moment + ", game=" + game
+				+ "]";
 	}
 
 }

@@ -1,18 +1,36 @@
 package br.com.emanuelgabriel.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import br.com.emanuelgabriel.model.enums.Plataforma;
 
+@Entity
 public class Game implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String titulo;
 	private Plataforma plataforma;
 
+	@ManyToOne
+	@JoinColumn(name = "genero_id")
 	private Genero genero;
+
+	@OneToMany(mappedBy = "game")
+	private List<Registro> registros = new ArrayList<>();
 
 	public Game() {
 	}
@@ -56,6 +74,10 @@ public class Game implements Serializable {
 		this.genero = genero;
 	}
 
+	public List<Registro> getRegistros() {
+		return registros;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -83,7 +105,8 @@ public class Game implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Game [id=" + id + ", titulo=" + titulo + ", plataforma=" + plataforma + ", genero=" + genero + "]";
+		return "Game [id=" + id + ", titulo=" + titulo + ", plataforma=" + plataforma + ", genero=" + genero
+				+ ", registros=" + registros + "]";
 	}
 
 }
