@@ -3,6 +3,7 @@ package br.com.emanuelgabriel.dtos;
 import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class RegistroInsertDTO implements Serializable {
 
@@ -11,9 +12,13 @@ public class RegistroInsertDTO implements Serializable {
 	@NotBlank(message = "Nome não pode ser vazio")
 	private String nome;
 
+	@NotNull(message = "Idade não pode ser vazio")
 	private Integer idade;
 
+	@NotNull(message = "Não pode ser vazio")
 	private Long gameId;
+
+	// private GameInputCodigoDTO gameId;
 
 	public RegistroInsertDTO() {
 	}

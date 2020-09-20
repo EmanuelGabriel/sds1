@@ -5,6 +5,7 @@ import java.time.Instant;
 
 import javax.validation.Valid;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.emanuelgabriel.dtos.RegistroDTO;
 import br.com.emanuelgabriel.dtos.RegistroInsertDTO;
+import br.com.emanuelgabriel.model.Registro;
 import br.com.emanuelgabriel.services.RegistroService;
 
 @RestController
@@ -31,6 +33,9 @@ public class RegistroResource {
 
 	@Autowired
 	private RegistroService registroService;
+
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
@@ -58,6 +63,14 @@ public class RegistroResource {
 
 		Page<RegistroDTO> listaGames = registroService.findByMoments(dataInicial, dataFinal, pageRequest);
 		return ResponseEntity.ok().body(listaGames);
+	}
+
+	private Registro toDTO(RegistroInsertDTO registroInsertDTO) {
+		return modelMapper.map(registroInsertDTO, Registro.class);
+	}
+
+	private RegistroDTO toModel(Registro registro) {
+		return modelMapper.map(registro, RegistroDTO.class);
 	}
 
 	private URI getUri(Long id) {

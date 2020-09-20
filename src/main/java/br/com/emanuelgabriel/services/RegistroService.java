@@ -29,7 +29,7 @@ public class RegistroService {
 		Registro registro = new Registro();
 		registro.setNome(dto.getNome());
 		registro.setIdade(dto.getIdade());
-		registro.setMoment(Instant.now()); 
+		registro.setMoment(Instant.now());
 
 		Game game = gameRepository.getOne(dto.getGameId());
 		registro.setGame(game);

@@ -13,9 +13,10 @@ import br.com.emanuelgabriel.model.Registro;
 @Repository
 public interface RegistroRepository extends JpaRepository<Registro, Long> {
 
-	@Query("SELECT obj FROM Registro obj WHERE "
-			+ "(coalesce(:min, null) IS NULL OR obj.moment >= :min) AND"
+	@Query("SELECT obj FROM Registro obj WHERE " + "(coalesce(:min, null) IS NULL OR obj.moment >= :min) AND"
 			+ "(coalesce(:max, null) IS NULL OR  obj.moment <= :max)")
 	Page<Registro> findByMoments(Instant min, Instant max, Pageable pageable);
+
+	Registro findByNome(String nome);
 
 }
